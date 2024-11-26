@@ -42,6 +42,11 @@ class McbApp:
         self,
         root: tk.Tk
     ):
+        root.bind(
+            sequence="<F5>",
+            func=lambda event: self.refresh_all_wrapper()
+        )
+        
         keyword_frm = ttk.Frame(
             master=root
         )
@@ -77,20 +82,6 @@ class McbApp:
             search_enter_func=self.performSearch_keyword
         )
 
-        '''keyword_debug_frm = ttk.Frame(master=root)
-        keyword_debug_frm.grid(
-            row=0,
-            column=1,
-            rowspan=9,
-            sticky="w"
-        )
-        keyword_debug_lbl = ttk.Label(master=keyword_debug_frm, text="boop")
-        keyword_debug_lbl.grid(
-            row=0,
-            column=0,
-            rowspan=9,
-            sticky="w"
-        )'''
         keyword_chronoCreate_srm = ScrollFrame(
             master=root
         )
@@ -202,17 +193,18 @@ class McbApp:
     ):
         search_target = search_ent.get()
 
-        mcb = MyClipBoard()
         results = []
-        with mcb.myShelf as myShelf:
-            if self.ignoreCaps:
-                for key in list(myShelf.keys()):
-                    if search_target.lower() in key.lower():
-                        results.append(key)
-            else:
-                for key in list(myShelf.keys()):
-                    if search_target in key:
-                        results.append(key)
+        if search_target != "":
+            mcb = MyClipBoard()
+            with mcb.myShelf as myShelf:
+                if self.ignoreCaps:
+                    for key in list(myShelf.keys()):
+                        if search_target.lower() in key.lower():
+                            results.append(key)
+                else:
+                    for key in list(myShelf.keys()):
+                        if search_target in key:
+                            results.append(key)
         
         self.displayResults(
             results_srm=results_srm,
@@ -229,18 +221,19 @@ class McbApp:
     ):
         search_target = search_ent.get()
 
-        mcb = MyClipBoard()
         results = []
-        with mcb.recordShelf as recordShelf:
-            records: list[str] = recordShelf[list(recordShelf.keys())[0]]
-            if self.ignoreCaps:
-                for elem in records:
-                    if search_target.lower() in elem.lower():
-                        results.append(elem)
-            else:
-                for elem in records:
-                    if search_target in elem:
-                        results.append(elem)
+        if search_target != "":
+            mcb = MyClipBoard()
+            with mcb.recordShelf as recordShelf:
+                records: list[str] = recordShelf[list(recordShelf.keys())[0]]
+                if self.ignoreCaps:
+                    for elem in records:
+                        if search_target.lower() in elem.lower():
+                            results.append(elem)
+                else:
+                    for elem in records:
+                        if search_target in elem:
+                            results.append(elem)
         
         self.displayResults(
             results_srm=results_srm,
@@ -324,7 +317,7 @@ class McbApp:
                 result_btn = ttk.Button(
                     master=resultHolder_frm,
                     text=f"{result_text}",
-                    style='result.TButton'
+                    #style='result.TButton'
                 )
                 result_btn.grid(
                     row=0,
@@ -338,7 +331,7 @@ class McbApp:
                 noExceute_btn = ttk.Button(
                     master=resultHolder_frm,
                     text=f"NE",
-                    style='result.TButton'
+                    #style='result.TButton'
                 )
                 noExceute_btn.bind(
                     sequence=tkBind.CLICK_LEFT,
@@ -348,7 +341,7 @@ class McbApp:
                 delete_btn = ttk.Button(
                     master=resultHolder_frm,
                     text=f"X",
-                    style='result.TButton'
+                    #style='result.TButton'
                 )
                 delete_btn.bind(
                     sequence=tkBind.CLICK_LEFT,
@@ -398,6 +391,7 @@ class McbApp:
         mcb.decision_tree(
             args=nmsp
         )
+        self.refresh_all_wrapper()
     
     def copy_to_clipboard_record(
         self,
@@ -415,6 +409,7 @@ class McbApp:
         mcb.decision_tree(
             args=nmsp
         )
+        self.refresh_all_wrapper()
 
     def noExecute_keyword(
         self,
@@ -523,7 +518,3 @@ class McbApp:
 
     def refresh_all_wrapper(self):
         self.refresh_all()
-
-    
-
-    
