@@ -10,9 +10,9 @@ how to use:
 6. in file explorer, navigate to mcb/logs
 7. check if all 3 word document files can be opened; if they can't, re-create all 3 word document files with the same names (content does not matter)
    
-(if existing mcb.bak, mcb.dat and mcb.dir files already exist; otherwise ignore steps 8 and 9) 
-8. in file explorer, navigate to mcb/store
-9. paste existing mcb.bak, mcb.dat and mcb.dir files in mcb/store
+(if existing mcb.bak, mcb.dat and mcb.dir files already exist; otherwise ignore) 
+- in file explorer, navigate to mcb/store
+- paste existing mcb.bak, mcb.dat and mcb.dir files in mcb/store
 
 (creating batch files to run using Win+R)
 - in a directory with PATH access, create file 'mcbo.bat' and 'mcbogui.bat'
